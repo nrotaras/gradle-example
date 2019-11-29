@@ -8,4 +8,12 @@ public class NotLanguageFindException extends RuntimeException {
     public NotLanguageFindException() {
         super();
     }
+
+    public NotLanguageFindException(String message) {
+        super(message);
+    }
+
+    public NotLanguageFindException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
