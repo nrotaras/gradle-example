@@ -1,5 +1,6 @@
 package com.europe.europecountries.controllers;
 
+import com.europe.europecountries.exceptions.CountryNotFoundException;
 import com.europe.europecountries.exceptions.NotLanguageFindException;
 import com.europe.europecountries.models.CountryLanguage;
 import com.europe.europecountries.repositories.CountryRepository;
@@ -25,6 +26,7 @@ public class LanguagesController {
         this.countryRepository = countryRepository;
     }
 
+
     @GetMapping("/{countryId}/languages")
     public Page<CountryLanguage> findLanguageByCountryId(@PathVariable(value = "countryId") Integer countryId, Pageable pageable) {
         return languageRepository.findLanguageByCountryId(countryId, pageable);
@@ -35,6 +37,20 @@ public class LanguagesController {
         return countryRepository.findById(countryId).map(country -> {
             language.setCountry(country);
             return languageRepository.save(language);
+        }).orElseThrow(() -> new NotLanguageFindException());
+    }
+
+    @PutMapping("/{countryId}/languages/{languageId}")
+    public CountryLanguage updateCountryLanguage(@PathVariable(value = "countryId") Integer countryId,
+                                                 @PathVariable(value = "languageId") Integer languageId,
+                                                 @Valid @RequestBody CountryLanguage language) {
+        if (!countryRepository.existsById(countryId)) {
+            throw new CountryNotFoundException();
+        }
+
+        return languageRepository.findById(languageId).map(language1 -> {
+            language1.setLanguage(language.getLanguage());
+            return languageRepository.save(language1);
         }).orElseThrow(() -> new NotLanguageFindException());
     }
 

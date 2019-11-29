@@ -10,6 +10,6 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface LanguageRepository extends JpaRepository<CountryLanguage, Long> {
+public interface LanguageRepository extends JpaRepository<CountryLanguage, Integer> {
     Page<CountryLanguage> findLanguageByCountryId(Integer id, Pageable pageable);
 }
