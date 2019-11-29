@@ -1,14 +1,19 @@
 package com.europe.europecountries.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity(name = "cities")
+@Entity
+@Table(name = "cities")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class City {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
     private Long id;
 
@@ -19,6 +24,9 @@ public class City {
     private String district;
 
     private int population;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Country idCountry;
 
 
 }

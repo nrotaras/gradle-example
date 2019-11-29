@@ -1,15 +1,17 @@
 package com.europe.europecountries.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "country_lang")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class CountryLanguage {
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -18,23 +20,7 @@ public class CountryLanguage {
 
     private String language;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Country.class)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Country country;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        } else if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        CountryLanguage language = (CountryLanguage) o;
-        return Objects.equals(language, language.language);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(language);
-    }
 
 }
